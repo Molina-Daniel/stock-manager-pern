@@ -1,0 +1,12 @@
+# Dependencies
+/server/node_modules
+/server/package-lock.json
+
+# Production
+/server/dist/
+
+# Environment variables
+/server/.env
+
+# Editor directories and files
+.DS_Store
