@@ -16,11 +16,15 @@ async function connectDB() {
     );
   }
 }
-
 connectDB();
 
+// Express instance
 const server = express();
 
+// Parse the body of the request
+server.use(express.json());
+
+// Use the router
 server.use("/api/products", router);
 
 export default server;
