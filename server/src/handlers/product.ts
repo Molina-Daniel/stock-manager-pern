@@ -39,3 +39,34 @@ export const createProduct = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error creating product" });
   }
 };
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    await product.update(req.body); // This update method protects any field not sent on a PUT request
+    res.status(200).json({ data: product });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error updating product" });
+  }
+};
+
+export const updateAvailability = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
+      return;
+    }
+    product.availability = !product.dataValues.availability;
+    await product.save();
+    res.status(200).json({ data: product });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error updating product" });
+  }
+};
