@@ -34,7 +34,7 @@ router.post(
       .withMessage("Price is required")
       .isNumeric()
       .withMessage("Price must be a number")
-      .isFloat({ min: 0 })
+      .isFloat({ min: 0.01 })
       .withMessage("Price must be greater than 0"),
   ],
   handleInputErrors,

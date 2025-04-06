@@ -8,12 +8,12 @@ async function connectDB() {
   try {
     await db.authenticate();
     db.sync();
-    console.log(colors.blue.bold("Database connected"));
+    // console.log(colors.blue.bold("Database connected"));
   } catch (error) {
-    console.log(
-      colors.white.bgRed.bold("Error connecting to the database"),
-      error
-    );
+    // console.log(
+    //   colors.white.bgRed.bold("Error connecting to the database"),
+    //   error
+    // );
   }
 }
 connectDB();
@@ -26,5 +26,9 @@ server.use(express.json());
 
 // Use the router
 server.use("/api/products", router);
+
+server.get("/api", (req, res) => {
+  res.json({ msg: "From API" });
+});
 
 export default server;
