@@ -10,3 +10,6 @@
 
 # Editor directories and files
 .DS_Store
+
+# Tests
+/server/coverage
