@@ -11,9 +11,84 @@ import {
 import { handleInputErrors } from "./middleware";
 
 const router = Router();
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   Product:
+ *    type: object
+ *    properties:
+ *      id:
+ *        type: integer
+ *        description: The product ID.
+ *        example: 1
+ *      name:
+ *        type: string
+ *        description: The product name.
+ *        example: Product 1
+ *      price:
+ *        type: number
+ *        description: The product price.
+ *        example: 300
+ *      availability:
+ *        type: boolean
+ *        description: The product availability.
+ *        example: true
+ */
 
+/**
+ * @swagger
+ * /api/products:
+ *  get:
+ *   summary: Get all products
+ *   tags:
+ *    - Products
+ *   description: Return a list of products
+ *   responses:
+ *    '200':
+ *      description: Successful response
+ *      content:
+ *        application/json:
+ *         schema:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/Product'
+ *
+ *
+ */
 router.get("/", getProducts);
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  get:
+ *   summary: Get a product by ID
+ *   tags:
+ *    - Products
+ *   description: Return a product based on its unique ID
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      schema:
+ *       type: integer
+ *      required: true
+ *      description: ID of the product to get
+ *   responses:
+ *    '200':
+ *      description: Successful response
+ *      content:
+ *        application/json:
+ *         schema:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/Product'
+ *    '404':
+ *      description: Product not found
+ *    '400':
+ *      description: Bad Request - Invalid ID
+ *
+ *
+ */
 router.get(
   "/:id",
   param("id").isInt({ min: 1 }).withMessage("Not a valid ID"),
