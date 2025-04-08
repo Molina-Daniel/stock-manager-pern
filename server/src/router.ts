@@ -72,7 +72,7 @@ router.get("/", getProducts);
  *      schema:
  *       type: integer
  *      required: true
- *      description: ID of the product to get
+ *      description: ID of the product to retrieve
  *   responses:
  *    '200':
  *      description: Successful response
@@ -96,6 +96,43 @@ router.get(
   getProductById
 );
 
+/**
+ * @swagger
+ * /api/products:
+ *  post:
+ *    summary: Create a new product
+ *    tags:
+ *      - Products
+ *    description: Create a new product in the database
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Product 1"
+ *              price:
+ *                type: number
+ *                example: 300
+ *              availability:
+ *                type: boolean
+ *                example: true
+ *            required:
+ *              - name
+ *              - price
+ *    responses:
+ *      '201':
+ *        description: Product created successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
+ *      '400':
+ *        description: Bad Request - Invalid input data
+ */
 router.post(
   "/",
   [
@@ -116,6 +153,49 @@ router.post(
   createProduct
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  put:
+ *    summary: Update a product by ID
+ *    tags:
+ *      - Products
+ *    description: Update a product based on its unique ID
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: ID of the product to update
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Product 1"
+ *              price:
+ *                type: number
+ *                example: 300
+ *              availability:
+ *                type: boolean
+ *                example: true
+ *    responses:
+ *      '200':
+ *        description: Product updated successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
+ *      '404':
+ *        description: Product not found
+ *      '400':
+ *        description: Bad Request - Invalid ID or input data
+ */
 router.put(
   "/:id",
   param("id").isInt({ min: 1 }).withMessage("Not a valid ID"),
@@ -138,6 +218,33 @@ router.put(
   updateProduct
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  patch:
+ *    summary: Update product availability by ID
+ *    tags:
+ *      - Products
+ *    description: Update product availability based on its unique ID
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: ID of the product to update availability
+ *    responses:
+ *      '200':
+ *        description: Product availability updated successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Product'
+ *      '404':
+ *        description: Product not found
+ *      '400':
+ *        description: Bad Request - Invalid ID
+ */
 router.patch(
   "/:id",
   param("id").isInt({ min: 1 }).withMessage("Not a valid ID"),
@@ -145,6 +252,34 @@ router.patch(
   updateAvailability
 );
 
+/**
+ * @swagger
+ * /api/products/{id}:
+ *  delete:
+ *    summary: Delete a product by ID
+ *    tags:
+ *      - Products
+ *    description: Returns a confirmation message after deleting a product
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: ID of the product to delete
+ *    responses:
+ *      '200':
+ *        description: Product deleted successfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: string
+ *              value: "Product deleted"
+ *      '404':
+ *        description: Product not found
+ *      '400':
+ *        description: Bad Request - Invalid ID
+ */
 router.delete(
   "/:id",
   param("id").isInt({ min: 1 }).withMessage("Not a valid ID"),

@@ -53,5 +53,5 @@ export const deleteProduct = async (req: Request, res: Response) => {
     return;
   }
   await product.destroy();
-  res.status(204).json({ data: "Product deleted" });
+  res.status(200).json({ data: "Product deleted" });
 };
