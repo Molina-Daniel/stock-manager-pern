@@ -1,4 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import { SwaggerUiOptions } from "swagger-ui-express";
 
 const options: swaggerJSDoc.Options = {
   swaggerDefinition: {
@@ -19,5 +20,16 @@ const options: swaggerJSDoc.Options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
+
+export const swaggerUiOptions: SwaggerUiOptions = {
+  customSiteTitle: "Stock Manager API",
+  customCss: `.swagger-ui .topbar { background-color: #2b3b45 }`,
+  customJs: `
+    document.addEventListener("DOMContentLoaded", function() {
+      const title = document.querySelector(".title") as HTMLElement;
+      title.innerHTML = "Stock Manager API";
+    });
+  `,
+};
 
 export default swaggerSpec;
