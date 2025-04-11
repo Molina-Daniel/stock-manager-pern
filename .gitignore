@@ -1,6 +1,11 @@
 # Dependencies
 /server/node_modules
 /server/package-lock.json
+/client/node_modules
+/client/package-lock.json
+/client/dist
+/client/dist-ssr
+/client/*.local
 
 # Production
 /server/dist/
@@ -13,3 +18,8 @@
 
 # Tests
 /server/coverage
+
+# Logs
+/client/logs
+/client/*.log
+/client/npm-debug.log*
