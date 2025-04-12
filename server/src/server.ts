@@ -1,5 +1,6 @@
 import express from "express";
 import colors from "colors";
+import cors, { CorsOptions } from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec, { swaggerUiOptions } from "./config/swagger";
 import router from "./router";
@@ -18,8 +19,21 @@ export async function connectDB() {
 }
 connectDB();
 
-// Express instance
+// Open Express instance
 const server = express();
+
+// Allow CORS connections
+const whiteList = [process.env.CLIENT_URL];
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS Error: Unauthorized domain"));
+    }
+  },
+};
+server.use(cors(corsOptions));
 
 // Parse the body of the request
 server.use(express.json());
