@@ -139,7 +139,7 @@ router.post(
     body("name")
       .notEmpty()
       .withMessage("Name is required")
-      .isLength({ min: 3 })
+      .isLength({ min: 1 })
       .withMessage("Name must be at least 3 characters long"),
     body("price")
       .notEmpty()
