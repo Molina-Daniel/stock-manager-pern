@@ -1,6 +1,13 @@
-import { Link } from "react-router";
+import { ActionFunctionArgs, Form, Link, redirect } from "react-router";
 import { Product } from "../types";
 import { formatCurrency } from "../utils";
+import { deleteProduct } from "../services/ProductService";
+
+export async function action({ params }: ActionFunctionArgs) {
+  if (params.id !== undefined) await deleteProduct(Number(params.id));
+
+  return redirect("/");
+}
 
 export default function ProductDetails({ product }: { product: Product }) {
   return (
@@ -20,6 +27,22 @@ export default function ProductDetails({ product }: { product: Product }) {
           >
             Edit
           </Link>
+          <Form
+            className="w-full"
+            method="POST"
+            action={`products/${product.id}/delete`}
+            onSubmit={(e) => {
+              if (!confirm("Delete?")) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <input
+              type="submit"
+              value="Delete"
+              className="bg-red-600 text-white cursor-pointer rounded-lg w-full p-2 uppercase font-bold text-xs text-center"
+            />
+          </Form>
         </div>
       </td>
     </tr>
