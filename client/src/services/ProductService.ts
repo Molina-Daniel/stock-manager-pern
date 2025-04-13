@@ -1,6 +1,13 @@
-import { safeParse } from "valibot";
+import { safeParse, parse } from "valibot";
 import axios from "axios";
-import { DraftProductSchema, ProductsSchema } from "../types";
+import {
+  BooleanSchema,
+  DraftProductSchema,
+  NumberSchema,
+  Product,
+  ProductSchema,
+  ProductsSchema,
+} from "../types";
 
 type ProductData = {
   [k: string]: FormDataEntryValue;
@@ -10,7 +17,7 @@ export async function addProduct(data: ProductData) {
   try {
     const result = safeParse(DraftProductSchema, {
       name: data.name,
-      price: Number(data.price),
+      price: parse(NumberSchema, data.price),
     });
 
     if (result.success) {
@@ -40,5 +47,45 @@ export async function getProducts() {
     }
   } catch (error) {
     console.log("Error fetching products: ", error);
+  }
+}
+
+export async function getProductsById(id: Product["id"]) {
+  try {
+    const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+    const { data } = await axios.get(url);
+    const result = safeParse(ProductSchema, data.data);
+
+    if (result.success) {
+      return result.output;
+    } else {
+      throw new Error(`Error fetching product ${id}`);
+    }
+  } catch (error) {
+    console.log("Error fetching product: ", error);
+  }
+}
+
+export async function updateProduct(data: ProductData, id: Product["id"]) {
+  try {
+    const result = safeParse(ProductSchema, {
+      id,
+      name: data.name,
+      price: parse(NumberSchema, data.price),
+      availability: parse(BooleanSchema, data.availability),
+    });
+
+    if (result.success) {
+      const url = `${import.meta.env.VITE_API_URL}/api/products/${id}`;
+      await axios.put(url, {
+        name: result.output.name,
+        price: result.output.price,
+        availability: result.output.availability,
+      });
+    } else {
+      throw new Error("Invalid data");
+    }
+  } catch (error) {
+    console.log("Error updating product: ", error);
   }
 }

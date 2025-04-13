@@ -31,6 +31,7 @@ export default function Products() {
               <th className="p-2">Name</th>
               <th className="p-2">Price</th>
               <th className="p-2">Availability</th>
+              <th className="p-2">Actions</th>
             </tr>
           </thead>
           <tbody>

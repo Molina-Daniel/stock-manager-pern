@@ -1,4 +1,18 @@
-import { InferOutput, object, string, number, boolean, array } from "valibot";
+import {
+  InferOutput,
+  object,
+  string,
+  number,
+  boolean,
+  array,
+  pipe,
+  decimal,
+  transform,
+} from "valibot";
+import { toBoolean } from "../utils";
+
+export const NumberSchema = pipe(string(), decimal(), transform(Number));
+export const BooleanSchema = pipe(string(), transform(toBoolean));
 
 export const DraftProductSchema = object({
   name: string(),
