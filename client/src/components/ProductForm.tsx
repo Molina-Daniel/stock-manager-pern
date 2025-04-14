@@ -1,6 +1,18 @@
+import { useState, ChangeEvent } from "react";
 import { Product } from "../types";
 
 export default function ProductForm({ product }: { product?: Product }) {
+  const [priceValue, setPriceValue] = useState<string>(
+    product?.price?.toString() || ""
+  );
+
+  const handlePriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === "" || /^\d+(\.\d{0,2})?$/.test(value)) {
+      setPriceValue(value);
+    }
+  };
+
   return (
     <>
       <div className="mb-4">
@@ -27,9 +39,16 @@ export default function ProductForm({ product }: { product?: Product }) {
           className="mt-2 block w-full p-3 bg-gray-50"
           placeholder="Product Price, eg. 19.99, 299.50"
           name="price"
-          defaultValue={product?.price}
-          step="any"
+          value={priceValue}
+          onChange={handlePriceChange}
+          step="0.01"
+          min="0.01"
+          pattern="\d+(\.\d{1,2})?"
+          title="Please enter a valid price with up to 2 decimal places"
         />
+        <small className="text-gray-500">
+          Enter a price with up to 2 decimal places
+        </small>
       </div>
     </>
   );

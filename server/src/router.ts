@@ -147,7 +147,16 @@ router.post(
       .isNumeric()
       .withMessage("Price must be a number")
       .isFloat({ min: 0.01 })
-      .withMessage("Price must be greater than 0"),
+      .withMessage("Price must be greater than 0")
+      .custom((value) => {
+        const strValue = value.toString();
+        const decimalParts = strValue.split(".");
+
+        if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+          throw new Error("Price cannot have more than 2 decimal places");
+        }
+        return true;
+      }),
   ],
   handleInputErrors,
   createProduct
@@ -210,7 +219,16 @@ router.put(
     .isNumeric()
     .withMessage("Price must be a number")
     .isFloat({ min: 0.01 })
-    .withMessage("Price must be greater than 0"),
+    .withMessage("Price must be greater than 0")
+    .custom((value) => {
+      const strValue = value.toString();
+      const decimalParts = strValue.split(".");
+
+      if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+        throw new Error("Price cannot have more than 2 decimal places");
+      }
+      return true;
+    }),
   body("availability")
     .isBoolean()
     .withMessage("Availability must be true or false"),
