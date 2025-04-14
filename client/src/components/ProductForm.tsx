@@ -25,9 +25,10 @@ export default function ProductForm({ product }: { product?: Product }) {
           id="price"
           type="number"
           className="mt-2 block w-full p-3 bg-gray-50"
-          placeholder="Product Price, eg. 200, 300"
+          placeholder="Product Price, eg. 19.99, 299.50"
           name="price"
           defaultValue={product?.price}
+          step="any"
         />
       </div>
     </>
