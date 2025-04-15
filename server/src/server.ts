@@ -24,10 +24,11 @@ connectDB();
 const server = express();
 
 // Allow CORS connections
-const whiteList = [process.env.CLIENT_URL];
+const whiteList = [process.env.CLIENT_URL, process.env.SERVER_URL];
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (whiteList.indexOf(origin) !== -1) {
+    console.log("Origin: ", origin);
+    if (!origin || whiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("CORS Error: Unauthorized domain"));
