@@ -18,7 +18,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Products() {
-  const products = useLoaderData() as Product[];
+  const products = (useLoaderData() as Product[]) ?? [];
 
   return (
     <>
@@ -32,23 +32,30 @@ export default function Products() {
         </Link>
       </div>
 
-      <div className="p-2">
-        <table className="w-full mt-5 table-auto">
-          <thead className="bg-slate-800 text-white">
-            <tr>
-              <th className="p-2">Name</th>
-              <th className="p-2">Price</th>
-              <th className="p-2">Availability</th>
-              <th className="p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <ProductDetails key={product.id} product={product} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {products.length > 0 ? (
+        <div className="p-2">
+          <table className="w-full mt-5 table-auto">
+            <thead className="bg-slate-800 text-white">
+              <tr>
+                <th className="p-2">Name</th>
+                <th className="p-2">Price</th>
+                <th className="p-2">Availability</th>
+                <th className="p-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.length > 0 &&
+                products.map((product) => (
+                  <ProductDetails key={product.id} product={product} />
+                ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="p-2 mt-20">
+          <p className="text-center text-2xl font-black">No products yet</p>
+        </div>
+      )}
     </>
   );
 }

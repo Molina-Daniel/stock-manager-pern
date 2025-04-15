@@ -22,7 +22,7 @@ export const DraftProductSchema = object({
 export const ProductSchema = object({
   id: number(),
   name: string(),
-  price: number(),
+  price: pipe(string(), decimal(), transform(Number)),
   availability: boolean(),
 });
 

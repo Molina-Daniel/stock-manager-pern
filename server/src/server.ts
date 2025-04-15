@@ -27,7 +27,7 @@ const server = express();
 const whiteList = [process.env.CLIENT_URL];
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (!origin || whiteList.indexOf(origin) !== -1) {
+    if (whiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("CORS Error: Unauthorized domain"));

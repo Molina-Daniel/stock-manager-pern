@@ -71,7 +71,7 @@ export async function updateProduct(data: ProductData, id: Product["id"]) {
     const result = safeParse(ProductSchema, {
       id,
       name: data.name,
-      price: parse(NumberSchema, data.price),
+      price: data.price,
       availability: parse(BooleanSchema, data.availability),
     });
 
